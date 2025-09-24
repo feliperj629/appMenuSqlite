@@ -58,33 +58,3 @@ export async function listarUsuarios() {
         throw error;
     }
 }
-
-export async function atualizarUsuario(id, nome, email, telefone) {
-    try {
-        if (!db) await initDB();
-
-        const result = await db.runAsync(
-            'UPDATE usuarios SET nome = ?, email = ?, telefone = ? WHERE id = ?;',
-            [nome, email, telefone, id]
-        );
-        return result;
-    } catch (error) {
-        console.error('Erro ao atualizar usuario:', error);
-        throw error;
-    }
-}
-
-export async function deletarUsuario(id) {
-    try {
-        if (!db) await initDB();
-
-        const result = await db.runAsync(
-            'DELETE FROM usuarios WHERE id = ?;',
-            [id]
-        );
-        return result;
-    } catch (error) {
-        console.error('Erro ao deletar usuario:', error);
-        throw error;
-    }
-}
