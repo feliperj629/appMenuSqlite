@@ -1,23 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { inserirUsuario } from '../db/database';
+import { inserirUsuario, atualizarUsuario } from '../db/database';
 
-export default function CadastroScreen({ navigation }) {
+export default function CadastroScreen({ navigation, route }) {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [telefone, setTelefone] = useState('');
 
+    const [modoEdicao, setModoEdicao] = useState(false);
+    const [usuarioId, setUsuarioId] = useState(null);
+
+    // useEffect - Função para enviar e atualizar os dados do usuário no banco de dados
+    useEffect(() => {
+        if (route?.params?.usuario && route?.params?.modoEdicao) {
+            const usuario = route.params.usuario;
+            setNome(usuario.nome);
+            setEmail(usuario.email);
+            setTelefone(usuario.telefone);
+            setUsuarioId(usuario.id);
+            setModoEdicao(true);
+        }
+    }, [route?.params]);
+
+    // Função para enviar e atualizar os dados do usuário no banco de dados
     const enviarDados = async () => {
         if (!nome || !email || !telefone) {
             alert('Por favor, preencha todos os campos!');
             return;
         }
         try {
-            await inserirUsuario(nome, email, telefone);
-            alert('Usuário cadastrado com sucesso!');
+            if (modoEdicao) {
+                await atualizarUsuario(usuarioId, nome, email, telefone);
+                alert('Usuário atualizado com sucesso!');
+            } else {
+                await inserirUsuario(nome, email, telefone);
+                alert('Usuário cadastrado com sucesso!');
+            }
             navigation.navigate('Consulta');
         } catch (error) {
-            alert('Erro ao cadastrar usuário: ' + error.message);
+            alert(`Erro ao ${modoEdicao ? 'atualizar' : 'cadastrar'} usuário: ` + error.message);
         }
     };
 
@@ -48,7 +69,7 @@ export default function CadastroScreen({ navigation }) {
             />
             <View style={styles.buttonContainer}>
                 <Button title="Voltar" onPress={() => navigation.goBack()} />
-                <Button title="Enviar" onPress={enviarDados} />
+                <Button title={modoEdicao ? "Atualizar" : "Cadastrar"} onPress={enviarDados} />
             </View>
         </View>
     );

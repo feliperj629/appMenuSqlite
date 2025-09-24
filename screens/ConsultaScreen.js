@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
-import { listarUsuarios } from '../db/database';
+import { View, Text, StyleSheet, FlatList, Button, Alert, TouchableOpacity } from 'react-native';
+import { listarUsuarios, deletarUsuario } from '../db/database';
 
 export default function ConsultaScreen({ navigation }) {
     const [usuarios, setUsuarios] = useState([]);
@@ -18,34 +18,86 @@ export default function ConsultaScreen({ navigation }) {
         carregarUsuarios();
     }, []);
 
+    // useEffect - Função para atualizar a lista de usuários
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            carregarUsuarios();
+        });
+        return unsubscribe;
+    }, [navigation]);
+
+    // Função para deletar um usuário
+    const confirmarDeletar = (id, nome) => {
+        Alert.alert(
+            'Confirmar Exclusão',
+            `Tem certeza que deseja deletar o usuário "${nome}"?`,
+            [
+                { text: 'Cancelar', style: 'cancel' },
+                { text: 'Deletar', style: 'destructive', onPress: () => deletarUsuarioConfirmado(id) }
+            ]
+        );
+    };
+
+    // Função para deletar um usuário
+    const deletarUsuarioConfirmado = async (id) => {
+        try {
+            await deletarUsuario(id);
+            alert('Usuário deletado com sucesso!');
+            carregarUsuarios();
+        } catch (error) {
+            alert('Erro ao deletar usuário: ' + error.message);
+        }
+    };
+
+    // Função para editar um usuário
+    const editarUsuario = (usuario) => {
+        navigation.navigate('Cadastro', {
+            usuario: usuario,
+            modoEdicao: true
+        });
+    };
+
+    // Função para renderizar os usuários
     const renderItem = ({ item }) => (
         <View style={styles.itemContainer}>
-            <Text style={styles.nome}>{item.nome}</Text>
-            <Text style={styles.email}>{item.email}</Text>
-            <Text style={styles.telefone}>{item.telefone}</Text>
+            <View style={styles.infoContainer}>
+                <Text style={styles.nome}>{item.nome}</Text>
+                <Text style={styles.email}>{item.email}</Text>
+                <Text style={styles.telefone}>{item.telefone}</Text>
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                    style={styles.editButton}
+                    onPress={() => editarUsuario(item)}
+                >
+                    <Text style={styles.buttonText}>Editar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.deleteButton}
+                    onPress={() => confirmarDeletar(item.id, item.nome)}
+                >
+                    <Text style={styles.buttonText}>Deletar</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titulo}>Cadas Usuários</Text>
+            <Text style={styles.titulo}>Lista de Usuários</Text>
             <Button
                 title="Cadastrar Usuario"
                 onPress={() => navigation.navigate('Cadastro')}
             />
 
-
-            <View style={styles.buttonContainer}>
-                <Text style={styles.titulo}>Lista de Usuários Cadastrados com SQLite</Text>
-                <FlatList
-                    data={usuarios}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id.toString()}
-                    ListEmptyComponent={
-                        <Text style={styles.emptyText}>Nenhum usuário cadastrado</Text>
-                    }
-                />
-            </View>
+            <FlatList style={styles.flatList}
+                data={usuarios}
+                renderItem={renderItem}
+                keyExtractor={item => item.id.toString()}
+                ListEmptyComponent={
+                    <Text style={styles.emptyText}>Nenhum usuário cadastrado</Text>
+                }
+            />
         </View>
     );
 }
@@ -55,9 +107,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         backgroundColor: '#f5f5f5'
-    },
-    buttonContainer: {
-        marginBottom: 20
     },
     titulo: {
         fontSize: 24,
@@ -71,7 +120,13 @@ const styles = StyleSheet.create({
         padding: 15,
         marginBottom: 10,
         borderRadius: 5,
-        elevation: 2
+        elevation: 2,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    infoContainer: {
+        flex: 1
     },
     nome: {
         fontSize: 18,
@@ -80,16 +135,41 @@ const styles = StyleSheet.create({
     },
     email: {
         fontSize: 16,
-        color: '#666'
+        color: '#666',
+        marginBottom: 2
     },
     telefone: {
         fontSize: 16,
         color: '#666'
     },
+    buttonContainer: {
+        flexDirection: 'row',
+        gap: 10
+    },
+    editButton: {
+        backgroundColor: '#2196F3',
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        borderRadius: 5
+    },
+    deleteButton: {
+        backgroundColor: '#f44336',
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        borderRadius: 5
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 12
+    },
     emptyText: {
         textAlign: 'center',
         fontSize: 16,
         color: '#666',
+        marginTop: 20
+    },
+    flatList: {
         marginTop: 20
     }
 });
