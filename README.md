@@ -8,6 +8,42 @@ Este é um projeto desenvolvido em sala de aula como exercício prático. O tuto
 - Um editor de código (VS Code recomendado)
 - Expo Go instalado no seu celular
 
+## 💻 Ambiente Virtual de Desenvolvimento
+
+Para este projeto, utilizaremos o ambiente virtual da Estácio para desenvolvimento e execução.
+
+### 🌐 Acesso ao Ambiente Virtual
+
+**URL:** https://vdicloud.estacio.br/
+
+**Credenciais de Acesso:**
+- **Login:** `suamatricula@alunos.estacio.br`
+- **Senha:** `SENHA-SAVA-TEAMS`
+- **Perfil:** Aluno T.I
+
+### ⚠️ Configuração Importante
+
+**Modo Tunnel Obrigatório:** No ambiente virtual, é necessário iniciar o projeto com a opção `--tunnel`:
+
+```bash
+npx expo start --tunnel
+```
+
+### 🔧 Por que usar o modo Tunnel?
+
+- ✅ Funciona através de diferentes redes Wi-Fi
+- ✅ Contorna restrições de firewall do ambiente virtual
+- ✅ Permite acesso remoto ao aplicativo
+- ✅ Maior compatibilidade em ambientes corporativos
+
+### 📱 Conectando o Dispositivo
+
+1. Acesse o ambiente virtual usando as credenciais acima
+2. Execute o projeto com `npx expo start --tunnel`
+3. Escaneie o QR code com o Expo Go no seu celular
+4. O aplicativo será carregado através da conexão tunnel
+
+
 ## 🚀 Passo 1: Criando o Projeto
 
 1. Crie um novo projeto Expo usando o template blank:
