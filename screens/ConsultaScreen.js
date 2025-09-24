@@ -28,24 +28,22 @@ export default function ConsultaScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titulo}>Cadas Usuários</Text>
+            <Text style={styles.titulo}>Lista de Usuários</Text>
             <Button
                 title="Cadastrar Usuario"
                 onPress={() => navigation.navigate('Cadastro')}
             />
 
-
-            <View style={styles.buttonContainer}>
-                <Text style={styles.titulo}>Lista de Usuários Cadastrados com SQLite</Text>
-                <FlatList
-                    data={usuarios}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id.toString()}
-                    ListEmptyComponent={
-                        <Text style={styles.emptyText}>Nenhum usuário cadastrado</Text>
-                    }
-                />
-            </View>
+            <FlatList
+                style={styles.flatList}
+                data={usuarios}
+                renderItem={renderItem}
+                keyExtractor={item => item.id.toString()}
+                ListEmptyComponent={
+                    <Text style={styles.emptyText}>Nenhum usuário cadastrado</Text>
+                }
+                showsVerticalScrollIndicator={true}
+            />
         </View>
     );
 }
@@ -56,15 +54,15 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: '#f5f5f5'
     },
-    buttonContainer: {
-        marginBottom: 20
-    },
     titulo: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
         marginTop: 20
+    },
+    flatList: {
+        marginTop: 10
     },
     itemContainer: {
         backgroundColor: 'white',
@@ -80,7 +78,8 @@ const styles = StyleSheet.create({
     },
     email: {
         fontSize: 16,
-        color: '#666'
+        color: '#666',
+        marginBottom: 2
     },
     telefone: {
         fontSize: 16,
