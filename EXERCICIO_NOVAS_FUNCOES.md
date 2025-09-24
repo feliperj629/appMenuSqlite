@@ -239,13 +239,48 @@ const renderItem = ({ item }) => (
 );
 ```
 
+### 3.6 Atualizar estrutura da interface
+
+```javascript
+// SUBSTITUIR o return da ConsultaScreen por:
+return (
+    <View style={styles.container}>
+        <Text style={styles.titulo}>Lista de Usuários</Text>
+        <Button
+            title="Cadastrar Usuario"
+            onPress={() => navigation.navigate('Cadastro')}
+        />
+
+        <FlatList 
+            style={styles.flatList}
+            data={usuarios}
+            renderItem={renderItem}
+            keyExtractor={item => item.id.toString()}
+            ListEmptyComponent={
+                <Text style={styles.emptyText}>Nenhum usuário cadastrado</Text>
+            }
+        />
+    </View>
+);
+```
+
 ### 3.5 Atualizar estilos
 
 ```javascript
-// ADICIONAR estilos para os novos elementos:
+// SUBSTITUIR todos os estilos existentes por:
 const styles = StyleSheet.create({
-    // ... estilos existentes ...
-    
+    container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: '#f5f5f5'
+    },
+    titulo: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign: 'center',
+        marginTop: 20
+    },
     itemContainer: {
         backgroundColor: 'white',
         padding: 15,
@@ -256,34 +291,52 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
-    
     infoContainer: {
         flex: 1
     },
-    
+    nome: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 5
+    },
+    email: {
+        fontSize: 16,
+        color: '#666',
+        marginBottom: 2
+    },
+    telefone: {
+        fontSize: 16,
+        color: '#666'
+    },
     buttonContainer: {
         flexDirection: 'row',
         gap: 10
     },
-    
     editButton: {
         backgroundColor: '#2196F3',
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 5
     },
-    
     deleteButton: {
         backgroundColor: '#f44336',
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 5
     },
-    
     buttonText: {
         color: 'white',
         fontWeight: 'bold',
         fontSize: 12
+    },
+    emptyText: {
+        textAlign: 'center',
+        fontSize: 16,
+        color: '#666',
+        marginTop: 20
+    },
+    flatList: {
+        marginTop: 20
     }
 });
 ```
@@ -324,3 +377,27 @@ Após seguir todos os passos, você terá:
 - **DELETE**: Remover usuários
 
 Agora seu app tem operações CRUD completas! 🎉
+
+---
+
+## 💡 Dicas Extras
+
+### 🎨 Melhorias de Interface
+- Adicione `style={styles.flatList}` no FlatList para melhor espaçamento
+- Considere adicionar ícones nos botões para melhor UX
+- Use cores consistentes em todo o app
+
+### 🔧 Melhorias de Funcionalidade
+- Adicione validação de email no formato correto
+- Implemente busca/filtro de usuários
+- Adicione confirmação antes de editar também
+
+### 📱 Melhorias de Performance
+- Use `useCallback` para otimizar funções
+- Implemente paginação para listas grandes
+- Adicione loading states durante operações
+
+### 🛡️ Melhorias de Segurança
+- Valide todos os inputs do usuário
+- Use prepared statements (já implementado)
+- Adicione tratamento de erros mais robusto
