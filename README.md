@@ -50,16 +50,21 @@ import * as SQLite from 'expo-sqlite';
 
 let db;
 
+/**
+ * INICIALIZAR BANCO DE DADOS
+ * Inicializa o banco de dados SQLite 
+ */
 export async function initDB() {
     try {
         if (!db) {
-            db = await SQLite.openDatabaseAsync('meubanco.db');
-            
+            db = await SQLite.openDatabaseAsync('baseTeste2.db');
+
             await db.execAsync(`
                 CREATE TABLE IF NOT EXISTS usuarios (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nome TEXT NOT NULL,
-                    email TEXT NOT NULL
+                    email TEXT NOT NULL,
+                    telefone TEXT NOT NULL
                 );
             `);
         }
@@ -69,13 +74,17 @@ export async function initDB() {
     }
 }
 
-export async function inserirUsuario(nome, email) {
+/**
+ * INSERIR USUÁRIO
+ * Adiciona um novo usuário ao banco de dados
+ */
+export async function inserirUsuario(nome, email, telefone) {
     try {
         if (!db) await initDB();
-        
+
         const result = await db.runAsync(
-            'INSERT INTO usuarios (nome, email) VALUES (?, ?);',
-            [nome, email]
+            'INSERT INTO usuarios (nome, email, telefone) VALUES (?, ?, ?);',
+            [nome, email, telefone]
         );
         return result;
     } catch (error) {
@@ -84,10 +93,14 @@ export async function inserirUsuario(nome, email) {
     }
 }
 
+/**
+ * LISTAR USUÁRIOS
+ * Retorna todos os usuários do banco de dados
+ */
 export async function listarUsuarios() {
     try {
         if (!db) await initDB();
-        
+
         const result = await db.getAllAsync('SELECT * FROM usuarios;');
         return result;
     } catch (error) {
@@ -109,14 +122,15 @@ import { inserirUsuario } from '../db/database';
 export default function CadastroScreen({ navigation }) {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
+    const [telefone, setTelefone] = useState('');
 
     const enviarDados = async () => {
-        if (!nome || !email) {
+        if (!nome || !email || !telefone) {
             alert('Por favor, preencha todos os campos!');
             return;
         }
         try {
-            await inserirUsuario(nome, email);
+            await inserirUsuario(nome, email, telefone);
             alert('Usuário cadastrado com sucesso!');
             navigation.navigate('Consulta');
         } catch (error) {
@@ -140,6 +154,14 @@ export default function CadastroScreen({ navigation }) {
                 onChangeText={setEmail}
                 placeholder="Digite seu email"
                 keyboardType="email-address"
+            />
+            <Text style={styles.label}>Telefone:</Text>
+            <TextInput
+                style={styles.input}
+                value={telefone}
+                onChangeText={setTelefone}
+                placeholder="Digite seu telefone"
+                keyboardType="phone-pad"
             />
             <View style={styles.buttonContainer}>
                 <Button title="Voltar" onPress={() => navigation.goBack()} />
@@ -194,23 +216,27 @@ export default function ConsultaScreen({ navigation }) {
         <View style={styles.itemContainer}>
             <Text style={styles.nome}>{item.nome}</Text>
             <Text style={styles.email}>{item.email}</Text>
+            <Text style={styles.telefone}>{item.telefone}</Text>
         </View>
     );
 
     return (
         <View style={styles.container}>
             <Text style={styles.titulo}>Lista de Usuários</Text>
-            <Button 
-                title="Cadastrar Usuario" 
-                onPress={() => navigation.navigate('Cadastro')} 
+            <Button
+                title="Cadastrar Usuario"
+                onPress={() => navigation.navigate('Cadastro')}
             />
+
             <FlatList
+                style={styles.flatList}
                 data={usuarios}
                 renderItem={renderItem}
                 keyExtractor={item => item.id.toString()}
                 ListEmptyComponent={
                     <Text style={styles.emptyText}>Nenhum usuário cadastrado</Text>
                 }
+                showsVerticalScrollIndicator={true}
             />
         </View>
     );
@@ -226,7 +252,11 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: 20
+    },
+    flatList: {
+        marginTop: 10
     },
     itemContainer: {
         backgroundColor: 'white',
@@ -241,6 +271,11 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     email: {
+        fontSize: 16,
+        color: '#666',
+        marginBottom: 2
+    },
+    telefone: {
         fontSize: 16,
         color: '#666'
     },
@@ -349,6 +384,8 @@ Este projeto foi desenvolvido em sala de aula como exercício prático para apre
 - Banco de dados SQLite local
 - Operações CRUD (Create, Read, Update, Delete)
 - Interface de usuário responsiva
+- Campos de formulário (nome, email, telefone)
+- Listagem com rolagem otimizada
 
 ## 📚 Finalidade Educacional
 
@@ -358,6 +395,8 @@ Este projeto é destinado exclusivamente para fins educacionais e demonstração
 
 - Este é um exemplo básico que pode ser expandido conforme suas necessidades
 - O banco de dados SQLite é local e os dados persistem entre sessões
+- Inclui campo telefone além de nome e email
+- Lista otimizada com rolagem para muitos registros
 - Você pode adicionar mais funcionalidades como edição e exclusão de registros
 - Considere adicionar validações mais robustas nos formulários
 - Para um projeto real, considere usar um backend para persistência dos dados

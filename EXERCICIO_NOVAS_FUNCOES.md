@@ -259,6 +259,7 @@ return (
             ListEmptyComponent={
                 <Text style={styles.emptyText}>Nenhum usuário cadastrado</Text>
             }
+            showsVerticalScrollIndicator={true}
         />
     </View>
 );
@@ -336,7 +337,7 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     flatList: {
-        marginTop: 20
+        marginTop: 10
     }
 });
 ```
@@ -384,6 +385,7 @@ Agora seu app tem operações CRUD completas! 🎉
 
 ### 🎨 Melhorias de Interface
 - Adicione `style={styles.flatList}` no FlatList para melhor espaçamento
+- Use `showsVerticalScrollIndicator={true}` para mostrar indicador de rolagem
 - Considere adicionar ícones nos botões para melhor UX
 - Use cores consistentes em todo o app
 
