@@ -1,6 +1,6 @@
 # Tutorial: Criando um App React Native com SQLite
 
-Este tutorial irá guiá-lo na criação de um aplicativo React Native simples com funcionalidades de cadastro e consulta usando SQLite.
+Este é um projeto desenvolvido em sala de aula como exercício prático. O tutorial irá guiá-lo na criação de um aplicativo React Native simples com funcionalidades de cadastro e consulta usando SQLite.
 
 ## 📱 Pré-requisitos
 
@@ -341,10 +341,27 @@ npx expo start --tunnel --clear
 npx expo start --lan --clear
 ```
 
+## 📝 Sobre o Projeto
+
+Este projeto foi desenvolvido em sala de aula como exercício prático para aprendizado de:
+- React Native com Expo
+- Navegação entre telas
+- Banco de dados SQLite local
+- Operações CRUD (Create, Read, Update, Delete)
+- Interface de usuário responsiva
+
+## 📚 Finalidade Educacional
+
+Este projeto é destinado exclusivamente para fins educacionais e demonstração de conceitos básicos de desenvolvimento mobile.
+
 ## 📝 Observações
 
 - Este é um exemplo básico que pode ser expandido conforme suas necessidades
 - O banco de dados SQLite é local e os dados persistem entre sessões
 - Você pode adicionar mais funcionalidades como edição e exclusão de registros
 - Considere adicionar validações mais robustas nos formulários
-- Para um projeto real, considere usar um backend para persistência dos dados 
+- Para um projeto real, considere usar um backend para persistência dos dados
+
+## 🤝 Contribuição
+
+Sinta-se à vontade para contribuir com melhorias, correções ou novas funcionalidades para fins de aprendizado! 
