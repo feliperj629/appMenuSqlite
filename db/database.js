@@ -2,6 +2,10 @@ import * as SQLite from 'expo-sqlite';
 
 let db;
 
+/**
+ * INICIALIZAR BANCO DE DADOS
+ * Inicializa o banco de dados SQLite 
+ */
 export async function initDB() {
     try {
         if (!db) {
@@ -32,6 +36,10 @@ export async function initDB() {
     }
 }
 
+/**
+ * INSERIR USUÁRIO
+ * Adiciona um novo usuário ao banco de dados
+ */
 export async function inserirUsuario(nome, email, telefone) {
     try {
         if (!db) await initDB();
@@ -47,6 +55,10 @@ export async function inserirUsuario(nome, email, telefone) {
     }
 }
 
+/**
+ * LISTAR USUÁRIOS
+ * Retorna todos os usuários do banco de dados
+ */
 export async function listarUsuarios() {
     try {
         if (!db) await initDB();
