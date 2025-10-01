@@ -21,14 +21,14 @@ export async function initDB() {
             `);
 
             // Para bancos existentes sem o campo telefone, adiciona a coluna
-            try {
-                await db.execAsync(`
-                    ALTER TABLE usuarios ADD COLUMN telefone TEXT;
-                `);
-            } catch (error) {
-                // Ignora erro se a coluna já existir
-                console.log('Coluna telefone já existe ou erro esperado:', error.message);
-            }
+            // try {
+            //     await db.execAsync(`
+            //         ALTER TABLE usuarios ADD COLUMN telefone TEXT;
+            //     `);
+            // } catch (error) {
+            //     // Ignora erro se a coluna já existir
+            //     console.log('Coluna telefone já existe ou erro esperado:', error.message);
+            // }
         }
     } catch (error) {
         console.error('Erro ao inicializar banco:', error);

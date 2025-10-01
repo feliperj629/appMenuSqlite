@@ -1,44 +1,17 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CadastroScreen from './screens/CadastroScreen';
 import ConsultaScreen from './screens/ConsultaScreen';
+import HomeScreen from './screens/HomeScreen';
 
 const Drawer = createDrawerNavigator();
-const Stack = createNativeStackNavigator();
-
-// Stack Navigator para as telas de cadastro
-function CadastroStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Cadastro"
-        component={CadastroScreen}
-        options={{ title: 'Cadastrar Usuário' }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-// Stack Navigator para as telas de consulta
-function ConsultaStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Consulta"
-        component={ConsultaScreen}
-        options={{ title: 'Lista de Usuários' }}
-      />
-    </Stack.Navigator>
-  );
-}
 
 export default function App() {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        initialRouteName="Consulta"
+        initialRouteName="Home"
         screenOptions={{
           headerStyle: {
             backgroundColor: '#2196F3',
@@ -50,8 +23,16 @@ export default function App() {
         }}
       >
         <Drawer.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            title: 'Home',
+            drawerLabel: 'Home',
+          }}
+        />
+        <Drawer.Screen
           name="Consulta"
-          component={ConsultaStack}
+          component={ConsultaScreen}
           options={{
             title: 'Lista de Usuários',
             drawerLabel: 'Lista de Usuários',
@@ -59,7 +40,7 @@ export default function App() {
         />
         <Drawer.Screen
           name="Cadastro"
-          component={CadastroStack}
+          component={CadastroScreen}
           options={{
             title: 'Cadastrar Usuário',
             drawerLabel: 'Cadastrar Usuário',

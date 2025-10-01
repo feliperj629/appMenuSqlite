@@ -40,7 +40,67 @@ import App from './App';
 registerRootComponent(App);
 ```
 
-### 4. Atualizar App.js para usar Drawer Navigator
+### 4. Criar HomeScreen (Opcional)
+
+**Arquivo: `screens/HomeScreen.js`**
+
+Crie uma tela inicial para o aplicativo:
+
+```javascript
+import { View, Text, StyleSheet, Button } from 'react-native';
+
+export default function HomeScreen({ navigation }) {
+    return (
+        <View style={styles.container}>
+            <Text style={styles.titulo}>Home</Text>
+            <View style={styles.buttonContainer}>
+                <Button
+                    title="Cadastrar Usuario"
+                    onPress={() => navigation.navigate('Cadastro')}
+                />
+                <Button
+                    title="Consultar Usuários"
+                    onPress={() => navigation.navigate('Consulta')}
+                />
+            </View>
+            <View style={styles.textContainer}>
+                <Text style={styles.text}>Esta é a tela inicial do aplicativo.</Text>
+                <Text style={styles.text}>Clique nos botões acima para navegar pelas telas.</Text>
+                <Text style={styles.text}>Clique no botão de menu lateral para abrir o menu lateral.</Text>
+            </View>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: '#f5f5f5'
+    },
+    titulo: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign: 'center'
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        gap: 10
+    },
+    text: {
+        fontSize: 16,
+        color: '#000',
+        marginTop: 20,
+        fontWeight: 'bold'
+    },
+    textContainer: {
+        flexDirection: 'column'
+    }
+});
+```
+
+### 5. Atualizar App.js para usar Drawer Navigator
 
 **Arquivo: `App.js`**
 
@@ -50,44 +110,17 @@ Substitua o conteúdo do arquivo:
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CadastroScreen from './screens/CadastroScreen';
 import ConsultaScreen from './screens/ConsultaScreen';
+import HomeScreen from './screens/HomeScreen';
 
 const Drawer = createDrawerNavigator();
-const Stack = createNativeStackNavigator();
-
-// Stack Navigator para as telas de cadastro
-function CadastroStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Cadastro"
-        component={CadastroScreen}
-        options={{ title: 'Cadastrar Usuário' }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-// Stack Navigator para as telas de consulta
-function ConsultaStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Consulta"
-        component={ConsultaScreen}
-        options={{ title: 'Lista de Usuários' }}
-      />
-    </Stack.Navigator>
-  );
-}
 
 export default function App() {
   return (
     <NavigationContainer>
       <Drawer.Navigator 
-        initialRouteName="Consulta"
+        initialRouteName="Home"
         screenOptions={{
           headerStyle: {
             backgroundColor: '#2196F3',
@@ -99,8 +132,16 @@ export default function App() {
         }}
       >
         <Drawer.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            title: 'Home',
+            drawerLabel: 'Home',
+          }}
+        />
+        <Drawer.Screen
           name="Consulta"
-          component={ConsultaStack}
+          component={ConsultaScreen}
           options={{
             title: 'Lista de Usuários',
             drawerLabel: 'Lista de Usuários',
@@ -108,7 +149,7 @@ export default function App() {
         />
         <Drawer.Screen
           name="Cadastro"
-          component={CadastroStack}
+          component={CadastroScreen}
           options={{
             title: 'Cadastrar Usuário',
             drawerLabel: 'Cadastrar Usuário',
@@ -120,7 +161,7 @@ export default function App() {
 }
 ```
 
-### 5. Verificar Dependências
+### 6. Verificar Dependências
 
 Execute o comando para verificar se todas as dependências estão corretas:
 
@@ -130,7 +171,7 @@ npx expo-doctor
 
 Deve retornar: `17/17 checks passed. No issues detected!`
 
-### 6. Testar o Projeto
+### 7. Testar o Projeto
 
 ```bash
 npx expo start
@@ -151,10 +192,9 @@ npx expo start
 ```
 App.js
 ├── Drawer.Navigator
-│   ├── ConsultaStack
-│   │   └── ConsultaScreen
-│   └── CadastroStack
-│       └── CadastroScreen
+│   ├── HomeScreen (tela inicial)
+│   ├── ConsultaScreen
+│   └── CadastroScreen
 ```
 
 
@@ -193,6 +233,7 @@ App.js
 
 Após seguir este tutorial, você terá:
 - ✅ Menu lateral funcional
+- ✅ Tela inicial (Home) com navegação
 - ✅ Navegação entre telas
 - ✅ Header personalizado
 - ✅ Gestos de swipe para abrir/fechar
