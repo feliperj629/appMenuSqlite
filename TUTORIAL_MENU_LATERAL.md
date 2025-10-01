@@ -4,11 +4,41 @@ Este tutorial mostra como converter um projeto React Native com navegação Stac
 
 ## 📋 Pré-requisitos
 
-- Projeto React Native com Expo
-- React Navigation já configurado
 - Node.js e npm instalados
+- Git instalado
+- Expo Go instalado no seu celular
+- Conta no GitHub (opcional, para clonar o repositório)
 
 ## 🚀 Passo a Passo
+
+### 0. Clonar o Projeto Inicial
+
+**Clone o repositório do GitHub:**
+
+```bash
+git clone https://github.com/feliperj629/appMenuSqlite.git
+cd appMenuSqlite
+```
+
+**Mude para o branch `add_func` que contém o projeto inicial:**
+
+```bash
+git checkout add_func
+```
+
+**Instale as dependências iniciais:**
+
+```bash
+npm install
+```
+
+**Verifique se o projeto está funcionando:**
+
+```bash
+npx expo start
+```
+
+> **Nota:** O projeto inicial já possui as telas de cadastro e consulta com navegação Stack. Agora vamos convertê-lo para usar menu lateral (Drawer).
 
 ### 1. Instalar Dependências do Drawer Navigator
 
@@ -242,6 +272,33 @@ Após seguir este tutorial, você terá:
 ## 🎉 Conclusão
 
 O projeto agora usa um menu lateral moderno e intuitivo, mantendo toda a funcionalidade original das telas de cadastro e consulta de usuários.
+
+## 📚 Recursos Adicionais
+
+- **Repositório GitHub**: [https://github.com/feliperj629/appMenuSqlite.git](https://github.com/feliperj629/appMenuSqlite.git)
+- **Branch inicial**: `add_func` (contém o projeto com navegação Stack)
+- **Branch final**: `main` (contém o projeto com menu lateral)
+
+## 🔄 Próximos Passos
+
+Após completar este tutorial, você pode:
+
+1. **Fazer commit das alterações:**
+   ```bash
+   git add .
+   git commit -m "Implementa menu lateral (Drawer Navigator)"
+   ```
+
+2. **Criar um novo branch para suas modificações:**
+   ```bash
+   git checkout -b minha-implementacao
+   ```
+
+3. **Adicionar novas funcionalidades:**
+   - Ícones no menu lateral
+   - Personalização do drawer
+   - Novas telas
+   - Melhorias na interface
 
 ---
 
