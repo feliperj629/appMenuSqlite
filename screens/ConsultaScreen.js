@@ -84,7 +84,6 @@ export default function ConsultaScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titulo}>Lista de Usuários</Text>
             <Button
                 title="Cadastrar Usuario"
                 onPress={() => navigation.navigate('Cadastro')}
